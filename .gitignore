@@ -1,6 +1,8 @@
 # Compiled files
 apps/**/translations/en
-public
+public/js/*
+public/css/*
+public/images/*
 
 # Logs
 logs
