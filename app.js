@@ -47,9 +47,12 @@ app.set('trust proxy', 1);
 var redis = require('redis');
 var RedisStore = require('connect-redis')(session);
 /* eslint no-process-env: 0*/
-// var client = redis.createClient(process.env.REDIS_URL || config.redis.port, config.redis.host);
-/* eslint max-len: 0*/
-var client = redis.createClient('redis://h:p6hpkjk23nifee8mppdblla1iu@ec2-54-163-236-235.compute-1.amazonaws.com:30609');
+var client;
+if (process.env.REDIS_URL) {
+  client = redis.createClient(process.env.REDIS_URL);
+} else {
+  client = redis.createClient(config.redis.port, config.redis.host);
+}
 
 client.on('connecting', function redisConnecting() {
   logger.info('Connecting to redis');

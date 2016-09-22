@@ -23,8 +23,9 @@
     "copy:images": "cp -r ./assets/images ./public/",
     "style": "jscs **/*.js --config=./.jscsrc.json",
     "quality": "plato -r -x 'node_modules|reports|test' -d reports/plato .",
-    "sass": "node-sass ./assets/scss/app.scss ./public/css/app.css --include-path ./node_modules",
+    "sass": "node-sass ./assets/scss/app.scss ./public/css/app.css",
     "hof-transpile": "hof-transpiler ./apps/**/translations/src -w --shared ./apps/common/translations/src",
+    "copy:govuk": "cp -r ./node_modules/hof/node_modules/hmpo-frontend-toolkit/assets/stylesheets/* ./assets/scss/ && cp -r ./node_modules/hof/node_modules/hmpo-frontend-toolkit/node_modules/govuk_frontend_toolkit/stylesheets/* ./assets/scss/",
     "postinstall": "npm run sass; npm run browserify; npm run copy:images; npm run hof-transpile"
   },
   "author": "HomeOffice",
