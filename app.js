@@ -45,8 +45,11 @@ app.set('trust proxy', 1);
 /******* Redis session storage *******/
 /*************************************/
 var redis = require('redis');
-var RedisStore = require('connect-redis-crypto')(session);
-var client = redis.createClient(config.redis.port, config.redis.host);
+var RedisStore = require('connect-redis')(session);
+/* eslint no-process-env: 0*/
+// var client = redis.createClient(process.env.REDIS_URL || config.redis.port, config.redis.host);
+/* eslint max-len: 0*/
+var client = redis.createClient('redis://h:p6hpkjk23nifee8mppdblla1iu@ec2-54-163-236-235.compute-1.amazonaws.com:30609');
 
 client.on('connecting', function redisConnecting() {
   logger.info('Connecting to redis');
@@ -66,8 +69,7 @@ client.on('error', function clientErrorHandler(e) {
 
 var redisStore = new RedisStore({
   client: client,
-  ttl: config.session.ttl,
-  secret: config.session.secret
+  ttl: config.session.ttl
 });
 
 function secureCookies(req, res, next) {
@@ -87,7 +89,8 @@ app.use(secureCookies);
 app.use(session({
   store: redisStore,
   cookie: {
-    secure: (config.env === 'development' || config.env === 'ci' || config.env === 'docker-compose') ? false : true
+    // secure: (config.env === 'development' || config.env === 'ci' || config.env === 'docker-compose') ? false : true
+    secure: false
   },
   key: 'hof-example-form.sid',
   secret: config.session.secret,
